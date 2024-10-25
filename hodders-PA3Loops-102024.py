@@ -62,7 +62,7 @@ def collect_customer_info():
         customer_state = (input("State (two letters): \t\t"))
         if not validate_shipping_state(customer_state, permitted_states):
             print()
-            print(f"We do not ship to {customer_state.upper}")
+            print(f"We do not ship to {customer_state.upper()}.")
             print()
         else:
             print()
@@ -78,8 +78,8 @@ def collect_customer_info():
             print()
             break
 
-    return (customer_name, customer_street, customer_city, customer_state, 
-            customer_zip_code, permitted_states)
+    return customer_name, customer_street, customer_city, customer_state, \
+           customer_zip_code, permitted_states
 
 
 # Validation for loyalty membership with number game
@@ -146,6 +146,8 @@ def calc_price(rocket_qty, loyalty_member):
         rocket_price = 72.35
     else:
         rocket_price = 80.00
+    
+    price = rocket_price * rocket_qty
 
     if loyalty_member == True:
         discount_amount = price * loyalty_discount
@@ -154,7 +156,6 @@ def calc_price(rocket_qty, loyalty_member):
         discount_amount = 0
         subtotal = price
     
-    price = rocket_price * rocket_qty
     shipping = shipping_cost * rocket_qty
     tax_amount = subtotal * tax_percent
     subtotal = subtotal + tax_amount
@@ -168,9 +169,9 @@ def calc_price(rocket_qty, loyalty_member):
     formatted_shipping = f"${shipping:>25,.2f}"
     formatted_order_total = f"${order_total:>30,.2f}"
 
-    return (order_total, formatted_rocket_price, formatted_price, 
-            formatted_discount_amount, formatted_subtotal, 
-            formatted_tax_amount, formatted_shipping, formatted_order_total)
+    return order_total, formatted_rocket_price, formatted_price, \
+           formatted_discount_amount, formatted_subtotal, \
+           formatted_tax_amount, formatted_shipping, formatted_order_total
 
 
 # invoice to print
@@ -248,7 +249,7 @@ def countdown(time_sec):
         time_sec -= 1
     else:
         import winsound
-        duration = 1000
+        duration = 500
         freq = 440
         winsound.Beep(freq, duration)
 
@@ -256,23 +257,39 @@ def countdown(time_sec):
 # main
 def main():
     again = "Y"
-    while again.upper() == "Y":
-        greeting()
-        validate_rocket_order()
-        collect_customer_info()
-        check_loyalty_member()
-        print_invoice()
-        print()
-        again = input("Ready to take another order?")
-        countdown(3)
-        print()
-        print("******************** NEW ORDER ********************")
-        print()
     while again.upper() == "N":
         print()
         print(input("Press any key to end program..."))
         print()
         break
+    else:
+        greeting()
+
+        rocket_qty, formatted_rocket_qty = validate_rocket_order()
+
+        customer_name, customer_street, customer_city, customer_state, customer_zip_code = collect_customer_info()
+        
+        loyalty_member, loyalty_gift = check_loyalty_member()
+
+        order_total, formatted_rocket_price, formatted_price, \
+        formatted_discount_amount, formatted_subtotal, formatted_tax_amount, \
+        formatted_shipping, formatted_order_total = calc_price(rocket_qty, loyalty_member)
+
+        print_invoice(formatted_rocket_qty, customer_name, customer_street, \
+                      customer_city, customer_state, customer_zip_code, \
+                      loyalty_member, loyalty_gift, order_total, \
+                      formatted_rocket_price, formatted_price, \
+                      formatted_discount_amount, formatted_subtotal, \
+                      formatted_tax_amount, formatted_shipping, formatted_order_total)
+        
+        print()
+        again = input("Ready to take another order?")
+        print()
+        countdown(3)
+        print()
+        print("******************** NEW ORDER ********************")
+        print()
+
 
 if __name__ == "__main__":
     main()
