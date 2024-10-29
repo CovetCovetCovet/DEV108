@@ -78,8 +78,7 @@ def collect_customer_info():
             print()
             break
 
-    return customer_name, customer_street, customer_city, customer_state, \
-           customer_zip_code, permitted_states
+    return customer_name, customer_street, customer_city, customer_state, customer_zip_code
 
 
 # Validation for loyalty membership with number game
@@ -271,16 +270,9 @@ def main():
         
         loyalty_member, loyalty_gift = check_loyalty_member()
 
-        order_total, formatted_rocket_price, formatted_price, \
-        formatted_discount_amount, formatted_subtotal, formatted_tax_amount, \
-        formatted_shipping, formatted_order_total = calc_price(rocket_qty, loyalty_member)
+        order_total, formatted_rocket_price, formatted_price, formatted_discount_amount, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total = calc_price(rocket_qty, loyalty_member)
 
-        print_invoice(formatted_rocket_qty, customer_name, customer_street, \
-                      customer_city, customer_state, customer_zip_code, \
-                      loyalty_member, loyalty_gift, order_total, \
-                      formatted_rocket_price, formatted_price, \
-                      formatted_discount_amount, formatted_subtotal, \
-                      formatted_tax_amount, formatted_shipping, formatted_order_total)
+        print_invoice(formatted_rocket_qty, customer_name, customer_street, customer_city, customer_state, customer_zip_code, loyalty_member, loyalty_gift, order_total, formatted_rocket_price, formatted_price, formatted_discount_amount, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total)
         
         print()
         again = input("Ready to take another order?")
