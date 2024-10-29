@@ -24,10 +24,8 @@ def validate_rocket_order():
         elif rocket_qty > 0:
             print()
             break
-        
-    formatted_rocket_qty = f"{rocket_qty:>25}"
 
-    return rocket_qty, formatted_rocket_qty
+    return rocket_qty
 
 
 # Shipping state validation
@@ -160,13 +158,13 @@ def calc_price(rocket_qty, loyalty_member):
     subtotal = subtotal + tax_amount
     order_total = subtotal + shipping
 
-    formatted_rocket_price = f"${rocket_price:>21,.2f}"
-    formatted_price = f"${price:>25,.2f}"
-    formatted_discount_amount = f"(${discount_amount:>21,.2f})"
-    formatted_subtotal = f"${subtotal:>25,.2f}"
-    formatted_tax_amount = f"${tax_amount:>25,.2f}"
-    formatted_shipping = f"${shipping:>25,.2f}"
-    formatted_order_total = f"${order_total:>30,.2f}"
+    formatted_rocket_price = f"${rocket_price:,.2f}"
+    formatted_price = f"${price:,.2f}"
+    formatted_discount_amount = f"(${discount_amount:,.2f})"
+    formatted_subtotal = f"${subtotal:,.2f}"
+    formatted_tax_amount = f"${tax_amount:,.2f}"
+    formatted_shipping = f"${shipping:,.2f}"
+    formatted_order_total = f"${order_total:,.2f}"
 
     return order_total, formatted_rocket_price, formatted_price, \
            formatted_discount_amount, formatted_subtotal, \
@@ -174,7 +172,7 @@ def calc_price(rocket_qty, loyalty_member):
 
 
 # invoice to print
-def print_invoice(formatted_rocket_qty, customer_name, customer_street, 
+def print_invoice(rocket_qty, customer_name, customer_street, 
                   customer_city, customer_state, customer_zip_code, 
                   loyalty_member, loyalty_gift, order_total, 
                   formatted_rocket_price, formatted_price, 
@@ -194,28 +192,28 @@ def print_invoice(formatted_rocket_qty, customer_name, customer_street,
     print()
     print()
     print("SHIP TO:")
-    print(f"\t\t {customer_name}")
+    print(f"\t\t{customer_name}")
     print(f"\t\t{customer_street}")
     print(f"\t\t{customer_city}")
     print(f"\t\t{customer_state}")
     print(f"\t\t{customer_zip_code}")
     print()
     print()
-    print(f"Quantity: {formatted_rocket_qty}")
-    print(f"Cost per rocket: {formatted_rocket_price}")
-    print(f"Subtotal: {formatted_price}")
+    print(f"Quantity:\t\t\t{rocket_qty:>10}")
+    print(f"Cost per rocket:\t\t{formatted_rocket_price:>10}")
+    print(f"Subtotal:\t\t\t{formatted_price:>10}")
 
     if loyalty_member == True:
-        print(f"Less 15% Futility Club: {formatted_discount_amount}")
-        print(f"Taxable amount: {formatted_subtotal}")
+        print(f"Less 15% Futility Club:\t\t{formatted_discount_amount:>11}")
+        print(f"Taxable amount:\t\t\t{formatted_subtotal:>10}")
     else:
         pass
 
-    print(f"Sales Tax: {formatted_tax_amount}")
-    print(f"Shipping: {formatted_shipping}")
+    print(f"Sales Tax:\t\t\t{formatted_tax_amount:>10}")
+    print(f"Shipping:\t\t\t{formatted_shipping:>10}")
     print("                                ___________")
     print()
-    print(f"TOTAL: {formatted_order_total}")
+    print(f"TOTAL:\t\t\t\t{formatted_order_total:>10}")
     print()
     print()
 
@@ -228,7 +226,7 @@ def print_invoice(formatted_rocket_qty, customer_name, customer_street,
     print("=================================================================")
     print()
     print()
-    print(f"Your total today is ${order_total}. Thanks for shopping with"
+    print(f"Your total today is ${order_total:,.2f}. Thanks for shopping with"
           " Acme!")
     print()
     print()
@@ -264,7 +262,7 @@ def main():
     else:
         greeting()
 
-        rocket_qty, formatted_rocket_qty = validate_rocket_order()
+        rocket_qty = validate_rocket_order()
 
         customer_name, customer_street, customer_city, customer_state, customer_zip_code = collect_customer_info()
         
@@ -272,10 +270,10 @@ def main():
 
         order_total, formatted_rocket_price, formatted_price, formatted_discount_amount, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total = calc_price(rocket_qty, loyalty_member)
 
-        print_invoice(formatted_rocket_qty, customer_name, customer_street, customer_city, customer_state, customer_zip_code, loyalty_member, loyalty_gift, order_total, formatted_rocket_price, formatted_price, formatted_discount_amount, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total)
+        print_invoice(rocket_qty, customer_name, customer_street, customer_city, customer_state, customer_zip_code, loyalty_member, loyalty_gift, order_total, formatted_rocket_price, formatted_price, formatted_discount_amount, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total)
         
         print()
-        again = input("Ready to take another order?")
+        again = input("Ready to take another order?\t")
         print()
         countdown(3)
         print()
