@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-*********************************************************************    
+********************************************************************************    
 *    Course:     DEV 108
 *    Instructor: Phil Duncan
 *    Term:       Fall 2024
@@ -33,7 +33,7 @@ def countdown(time_sec):
         time_sec -= 1
 
 def collect_name():
-    player_name = input("Enter your name:\t")
+    player_name = input("Enter your name: ")
     print(f"Welcome {player_name}!")
 
     return player_name
@@ -42,56 +42,60 @@ def collect_name():
 def play_game(player_name):
     numlist = (1, 2, 3, 4)
     game = 0
-    win = 0
-    lose = 0
-    game_outcome = []
+    wins = game_outcome_guess.count("win")
+    losses = game_outcome_guess.count("lose")
+    game_outcome_guess = []
 
-    player_guess = input("Do you choose even or odd?")
+    print()
+    guess = input("Do you choose even or odd?")
+    print()
 
     countdown(3)
     
-    choice_1 = random(numlist)
-    choice_2 = random(numlist)
-    sum = choice_1 + choice_2
+    num_1 = random(numlist)
+    num_2 = random(numlist)
+    sum = num_1 + num_2
 
-    even = is_even(sum) == True
-    odd = is_even(sum) == False
+    is_even(sum)
 
-    if even and player_guess.lower() == "even":
-        print(f"{player_name}, you chose {player_guess}, the sum was {sum}, which is an even number, you Win!")
-        win += 1
-        game += 1
-        game_outcome.append(game, win, player_guess)
-    elif odd and player_guess.lower() == "odd":
-        print(f"{player_name}, you chose {player_guess}, the sum was {sum}, which is an odd number, you Win!")
-        win += 1
-        game += 1
-    elif even and player_guess.lower() == "odd":
-        print(f"{player_name}, you chose {player_guess}, the sum was {sum}, which is an odd number, you Lose!")
-        lose += 1
-        game += 1
-    elif odd and player_guess.lower() == "even":
-        print(f"{player_name}, you chose {player_guess}, the sum was {sum}, which is an even number, you Lose!")
-        lose += 1
-        game += 1
+    if is_even == True:
+        result = "even"
     else:
-        pass
+        result = "odd"
 
-        return sum
+    if result == guess.lower():
+        game += 1
+        outcome = "win"
+    else:
+        game += 1
+        outcome = "lose"
+
+    game_outcome_guess.append([game, outcome, guess])
+
+    print(f"{player_name}, you chose {guess}, the sum was {sum}, which is an {result} number, you {outcome}!"
+          f"\nThat's {wins} wins and {losses} losses!")
 
 
-# Game uses Lists to store the Even Odd determination in correlation to game session number (first game, second game, etc. of game session).  HINT: Remember Lists can store Lists.
-# Game compares stored player choice of Even Odd determination
-# If determination matches player choice announce game outcome as required (A above. Required Game Session Result Display  modified for win)
-# If determination is not a match for player choice announce game outcome as required (A above. Required Game Session Result Display )
-# Store game outcome in correlation to game session number (first game, second game, etc. of game session).  HINT: Remember Lists can store Lists.
+    return sum, game_outcome_guess, game, wins, losses, outcome, guess
 
+
+def recap_games(player_name, game_outcome_guess, game, wins, losses):
+    win_rate = wins / game
+
+    print(f"{player_name}, you played {game} games and won {wins}"
+          f"\nThat is a {win_rate}% win rate!")
+
+    for item in game_outcome_guess:
+        print(item)
+
+# Game 1 you won selecting Even, Game 2 you lost selecting Odd, Game 3 you won selecting Odd, Game 4 you won selecting Odd, Game 5 you lost selecting Even, Game 6 you lost selecting Odd, Game 7 you won selecting Even.
+# Congratulations, you are a Grand Champion!
 
 def main():
     again = "Y"
     while again.upper() == "N":
         print()
-        print(input("Press any key to end program..."))
+        recap_games()
         print()
         break
     else:
