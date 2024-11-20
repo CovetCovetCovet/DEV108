@@ -24,6 +24,7 @@ import random
 def is_even(n):
     return n % 2 == 0
 
+
 def countdown(time_sec):
     while time_sec:
         mins, secs = divmod(time_sec, 60)
@@ -32,6 +33,7 @@ def countdown(time_sec):
         time.sleep(1)
         time_sec -= 1
 
+
 def collect_name():
     player_name = input("Enter your name: ")
     print(f"Welcome {player_name}!")
@@ -39,73 +41,85 @@ def collect_name():
     return player_name
 
 
-def play_game(player_name):
+def play_game(player_name, game_outcome_guess, game, wins, losses):
     numlist = (1, 2, 3, 4)
-    game = 0
-    wins = game_outcome_guess.count("win")
-    losses = game_outcome_guess.count("lose")
-    game_outcome_guess = []
 
     print()
-    guess = input("Do you choose even or odd?")
+    guess = input("Do you choose even or odd? ")
     print()
 
     countdown(3)
     
-    num_1 = random(numlist)
-    num_2 = random(numlist)
+    num_1 = random.choice(numlist)
+    num_2 = random.choice(numlist)
     sum = num_1 + num_2
 
-    is_even(sum)
-
-    if is_even == True:
+    
+    if is_even(sum) == True:
         result = "even"
     else:
         result = "odd"
 
     if result == guess.lower():
         game += 1
+        wins += 1
         outcome = "win"
     else:
         game += 1
+        losses += 1
         outcome = "lose"
 
     game_outcome_guess.append([game, outcome, guess])
 
+
     print(f"{player_name}, you chose {guess}, the sum was {sum}, which is an {result} number, you {outcome}!"
           f"\nThat's {wins} wins and {losses} losses!")
 
+    return game_outcome_guess, game, wins, losses
 
-    return sum, game_outcome_guess, game, wins, losses, outcome, guess
 
+def recap_games(player_name, game_outcome_guess, game, wins):
+    win_rate = float((wins / game) * 100)
 
-def recap_games(player_name, game_outcome_guess, game, wins, losses):
-    win_rate = wins / game
-
-    print(f"{player_name}, you played {game} games and won {wins}"
-          f"\nThat is a {win_rate}% win rate!")
+    print(f"{player_name}, you played {game} games and won {wins}."
+          f"\nThat is a {win_rate:.0f}% win rate!")
 
     for item in game_outcome_guess:
-        print(item)
+        print(f"Game {item[0]} you {item[1]} selecting {item[2]}.")
 
-# Game 1 you won selecting Even, Game 2 you lost selecting Odd, Game 3 you won selecting Odd, Game 4 you won selecting Odd, Game 5 you lost selecting Even, Game 6 you lost selecting Odd, Game 7 you won selecting Even.
-# Congratulations, you are a Grand Champion!
+    if win_rate >= 50:
+        print("\nCongratulations, you are a Grand Champion!")
+    else:
+        print("\nRelaunch the game to try again to become a Grand Champion.")
+
+def reset_game(game, wins, losses, game_outcome_guess):
+    game = 0
+    wins = 0
+    losses = 0
+    game_outcome_guess = []
+
+    return game, wins, losses, game_outcome_guess
+
 
 def main():
-    again = "Y"
-    while again.upper() == "N":
+    again = "y"
+    player_name = collect_name()
+    game = 0
+    wins = 0
+    losses = 0
+    game_outcome_guess = []
+    while again.lower() == "y":
+        game_outcome_guess, game, wins, losses = play_game(player_name, game_outcome_guess, game, wins, losses)
+
         print()
-        recap_games()
+        again = input("Would you like to play again? y/n  ")
         print()
-        break
-    else:
-        collect_name()
-        play_game()
 
     print()
-    again = input("Would you like to play again? y/n\t")
+    recap_games(player_name, game_outcome_guess, game, wins)
     print()
-
+    game, wins, losses, game_outcome_guess = reset_game(game, wins, losses, game_outcome_guess)
+    
 
 if __name__ == "__main__":
     main()
