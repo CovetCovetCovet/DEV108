@@ -21,6 +21,7 @@
 import random
 
 
+# Function to welcome the player and collect their name
 def collect_name():
     print("Threads of Fate: The Witch's Prophecy")
     player_name = input("\nWho am I speaking with? ")
@@ -30,6 +31,8 @@ def collect_name():
     return player_name
 
 
+# Collects the user's question and provide a random answer,
+# then adds the question and answer in the list
 def play_game(questions):
     answers = ("The stars align in your favor", "The spirits whisper yes", 
                "Magic is on your side, and fate smiles upon you", 
@@ -48,12 +51,15 @@ def play_game(questions):
 
     return questions
 
+
+# Counts the length of the list
 def count_len(questions):
     count = len(questions)
 
     return count
 
 
+# Function to
 def recap_games(player_name, count, questions):
 
     print(f"{player_name}, {count} questions you have spun into the cauldron, "
@@ -63,6 +69,8 @@ def recap_games(player_name, count, questions):
         print(f"{item[0]} - {item[1]}.")
 
 
+# Main function including asking if the player wants to keep going, a farewell
+# message, and list reset
 def main():
     again = "y"
     questions = []
