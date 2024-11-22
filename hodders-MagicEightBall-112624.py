@@ -32,10 +32,10 @@ def collect_name():
 
 def play_game(questions):
     answers = ("The stars align in your favor", "The spirits whisper yes", 
-               "The black cat crosses your path; fortune smiles upon you", 
+               "Magic is on your side, and fate smiles upon you", 
                "The crystal ball glows with a clear yes", 
                "The cursed runes spell doom - no, the answer is not in your "
-               "favor", "The veil is thick and the spirits refuse to answer", 
+               "favor", "The answer lies in the void — a forbidding no", 
                "The cauldron bubbles with uncertainty", 
                "The fates are clouded; wait for the next full moon")
 
