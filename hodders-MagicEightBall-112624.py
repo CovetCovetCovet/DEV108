@@ -37,7 +37,7 @@ def play_game(questions):
     answers = ("The stars align in your favor", "The spirits whisper yes", 
                "Magic is on your side, and fate smiles upon you", 
                "The crystal ball glows with a clear yes", 
-               "The cursed runes spell doom - no, the answer is not in your "
+               "The cursed runes spell doom — no, the answer is not in your "
                "favor", "The answer lies in the void — a forbidding no", 
                "The cauldron bubbles with uncertainty", 
                "The fates are clouded; wait for the next full moon")
@@ -66,7 +66,7 @@ def recap_games(player_name, count, questions):
           f"and {count} answers have bubbled forth...")
 
     for item in questions:
-        print(f"{item[0]} - {item[1]}.")
+        print(f"{item[0]} ⋆ {item[1]}.")
 
 
 # Main function including asking if the player wants to keep going, a farewell
