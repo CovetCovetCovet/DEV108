@@ -7,7 +7,7 @@
 *    Term:       Fall 2024
 *
 *    Programmer: Sara Hodder
-*    Assignment: DEV108 Coding Assignment 4 - Acme Rockets Recording and Reporting
+*    Assignment: DEV108 Coding Assignment 4 - Acme Rockets Recording & Reporting
 *    
 *    Description:   
 * 
@@ -34,11 +34,10 @@ def write_sales(sales):
         writer = csv.writer(file)
         writer.writerows(sales)
 
-def read_sales():
-    sales = []
+def read_sales(sales):
     with open(FILENAME, newline="") as file:
         reader = csv.writer(file)
-        for row in reader:
+        for row in file:  # Should this be "file?"
             sales.append(row)
     
     return sales
@@ -115,7 +114,8 @@ def collect_customer_info():
             print()
             break
 
-    return customer_name, customer_street, customer_city, customer_state, customer_zip_code
+    return (customer_name, customer_street, customer_city, customer_state, 
+            customer_zip_code)
 
 
 # Validation for loyalty membership with number game
@@ -209,16 +209,12 @@ def calc_price(rocket_qty, loyalty_member):
            formatted_discount_amount, formatted_subtotal, \
            formatted_tax_amount, formatted_shipping, formatted_order_total
 
-def add_sales(rocket_qty, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total):
-    sales = [rocket_qty, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total]
+def add_sales(rocket_qty, formatted_subtotal, formatted_tax_amount, 
+              formatted_shipping, formatted_order_total):
+    sales = [rocket_qty, formatted_subtotal, formatted_tax_amount, 
+             formatted_shipping, formatted_order_total]
     sales.append(sales)
     write_sales(sales)
-
-# Rocket quantity sold 
-# Sub total $ amount before tax & shipping
-# Tax $ amount
-# Shipping $ amount 
-# Total Sale $ amount
 
     return sales
 
@@ -306,30 +302,36 @@ def countdown(time_sec):
 # main
 def main():
     again = "Y"
-    while again.upper() == "N":
-        print()
-        print(input("Press any key to end program..."))
-        print()
-        break
-    else:
+    sales = [["Rockets Sold", "Subtotal", "Tax", "Shipping", "Total Sale"]]
+    while again.upper() == "Y":
+        write_sales(sales)
+        read_sales(sales)
         greeting()
-
         rocket_qty = validate_rocket_order()
-
-        customer_name, customer_street, customer_city, customer_state, customer_zip_code = collect_customer_info()
-        
+        (customer_name, customer_street, customer_city, customer_state, 
+         customer_zip_code) = collect_customer_info()
         loyalty_member, loyalty_gift = check_loyalty_member()
-
-        order_total, formatted_rocket_price, formatted_price, formatted_discount_amount, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total = calc_price(rocket_qty, loyalty_member)
-
-        print_invoice(rocket_qty, customer_name, customer_street, customer_city, customer_state, customer_zip_code, loyalty_member, loyalty_gift, order_total, formatted_rocket_price, formatted_price, formatted_discount_amount, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total)
-        
+        (order_total, formatted_rocket_price, formatted_price, 
+         formatted_discount_amount, formatted_subtotal, formatted_tax_amount, 
+         formatted_shipping, formatted_order_total) = calc_price(rocket_qty, 
+                                                                 loyalty_member)
+        print_invoice(rocket_qty, customer_name, customer_street, customer_city, 
+                      customer_state, customer_zip_code, loyalty_member, 
+                      loyalty_gift, order_total, formatted_rocket_price, 
+                      formatted_price, formatted_discount_amount, 
+                      formatted_subtotal, formatted_tax_amount, 
+                      formatted_shipping, formatted_order_total)
+        sales = add_sales(rocket_qty, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total)
         print()
         again = input("Ready to take another order?\t")
         print()
         countdown(3)
         print()
         print("******************** NEW ORDER ********************")
+        print()
+    else:
+        print()
+        print(input("Press any key to end program..."))
         print()
 
 
