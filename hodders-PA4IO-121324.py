@@ -27,17 +27,18 @@ import random
 import csv
 
 # csv information
-FILENAME = "salesrecord.csv"
+FILENAME = "hodders_salesrecord.csv"
 
 def write_sales(sales):
-    with open(FILENAME, "w", newline="") as file:
-        writer = csv.writer(file)
+    with open(FILENAME, "w", newline="") as csvfile:
+        writer = csv.writer(csvfile)
         writer.writerows(sales)
 
+
 def read_sales(sales):
-    with open(FILENAME, newline="") as file:
-        reader = csv.writer(file)
-        for row in file:  # Should this be "file?"
+    with open(FILENAME, newline="") as csvfile:
+        reader = csv.reader(csvfile)
+        for row in reader:
             sales.append(row)
     
     return sales
@@ -209,15 +210,6 @@ def calc_price(rocket_qty, loyalty_member):
            formatted_discount_amount, formatted_subtotal, \
            formatted_tax_amount, formatted_shipping, formatted_order_total
 
-def add_sales(rocket_qty, formatted_subtotal, formatted_tax_amount, 
-              formatted_shipping, formatted_order_total):
-    sales = [rocket_qty, formatted_subtotal, formatted_tax_amount, 
-             formatted_shipping, formatted_order_total]
-    sales.append(sales)
-    write_sales(sales)
-
-    return sales
-
 
 # invoice to print
 def print_invoice(rocket_qty, customer_name, customer_street, 
@@ -302,10 +294,9 @@ def countdown(time_sec):
 # main
 def main():
     again = "Y"
-    sales = [["Rockets Sold", "Subtotal", "Tax", "Shipping", "Total Sale"]]
+    sales = [['Rockets Sold', 'Subtotal', 'Tax', 'Shipping', 'Total Sale']]
+    
     while again.upper() == "Y":
-        write_sales(sales)
-        read_sales(sales)
         greeting()
         rocket_qty = validate_rocket_order()
         (customer_name, customer_street, customer_city, customer_state, 
@@ -321,19 +312,29 @@ def main():
                       formatted_price, formatted_discount_amount, 
                       formatted_subtotal, formatted_tax_amount, 
                       formatted_shipping, formatted_order_total)
-        sales = add_sales(rocket_qty, formatted_subtotal, formatted_tax_amount, formatted_shipping, formatted_order_total)
+       
+        sales.append([rocket_qty, formatted_subtotal, formatted_tax_amount, 
+                          formatted_shipping, formatted_order_total])
+
         print()
         again = input("Ready to take another order?\t")
-        print()
-        countdown(3)
-        print()
-        print("******************** NEW ORDER ********************")
-        print()
+
+        if again.upper() == "Y":
+            print()
+            countdown(3)
+            print()
+            print("******************** NEW ORDER ********************")
+            print()
+        else:
+            break
     else:
         print()
         print(input("Press any key to end program..."))
         print()
 
+    write_sales(sales)
+
 
 if __name__ == "__main__":
     main()
+
