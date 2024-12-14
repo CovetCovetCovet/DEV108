@@ -16,8 +16,8 @@
 *    1.0         10/06/24           Initial submission (PADecisions)
 *    2.0         10/13/24           PA2Decisions
 *    3.0         10/20/24           PA3Loops
-*    4.1         12/13/24           Add I/O functionality
-*    4.2         12/13/24           
+*    4.1         12/13/24           csv create and write
+*    4.2         12/13/24           csv read
 * 
 """
 
@@ -35,13 +35,12 @@ def write_sales(sales):
         writer.writerows(sales)
 
 
-def read_sales(sales):
+def read_sales():
     with open(FILENAME, newline="") as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
-            sales.append(row)
+            print(row)
     
-    return sales
 
 # greeting
 def greeting():
@@ -326,13 +325,23 @@ def main():
             print("******************** NEW ORDER ********************")
             print()
         else:
-            break
+            pass
+            
+        write_sales(sales)
+
     else:
         print()
-        print(input("Press any key to end program..."))
-        print()
-
-    write_sales(sales)
+        print_record = input("Would you like a record of your Sales Sessions?  y/n\t")
+        if print_record.upper() == "Y":
+            print()
+            read_sales()
+            print()
+            print(input("Press any key to end program..."))
+            print()
+        else:
+            print()
+            print(input("Press any key to end program..."))
+            print()
 
 
 if __name__ == "__main__":
